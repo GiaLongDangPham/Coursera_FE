@@ -1,0 +1,108 @@
+<app-header></app-header>
+<div class="container mt-4">
+    <h2 class="mb-4 animated-title">Quản lý người dùng</h2>
+
+    <form [formGroup]="userForm" (ngSubmit)="submitForm()" class="mb-1">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label>ID</label>
+                <input type="text" formControlName="id" class="form-control"
+                       [ngClass]="{'is-invalid': userForm.get('id')?.invalid && userForm.get('id')?.touched}" />
+                <div *ngIf="userForm.get('id')?.invalid && userForm.get('id')?.touched" class="text-danger">
+                    ID không được để trống
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label>Username</label>
+                <input type="text" formControlName="username" class="form-control"
+                       [ngClass]="{'is-invalid': userForm.get('username')?.invalid && userForm.get('username')?.touched}" />
+                <div *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched" class="text-danger">
+                    Username không được để trống
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label>Password</label>
+                <input type="password" formControlName="password" class="form-control"
+                       [ngClass]="{'is-invalid': userForm.get('password')?.invalid && userForm.get('password')?.touched}" />
+                <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="text-danger">
+                    Mật khẩu phải từ 8 ký tự trở lên
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label>Ngày sinh</label>
+                <input type="date" formControlName="dob" class="form-control"
+                       [ngClass]="{'is-invalid': (userForm.get('dob')?.touched && !isValidAge(userForm.get('dob')?.value))}" />
+                <div *ngIf="userForm.get('dob')?.touched && !isValidAge(userForm.get('dob')?.value)" class="text-danger">
+                    Người dùng phải đủ 13 tuổi
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label>Họ</label>
+                <input type="text" formControlName="fname" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label>Tên</label>
+                <input type="text" formControlName="lname" class="form-control"/>
+            </div>
+            <div class="col-md-3">
+                <label>Email</label>
+                <input type="email" formControlName="email" class="form-control"
+                    [ngClass]="{'is-invalid': userForm.get('email')?.invalid && userForm.get('email')?.touched}" />
+                <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-danger">
+                    Email không hợp lệ
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label>Số điện thoại</label>
+                <input type="text" formControlName="phone" class="form-control"/>
+            </div>
+            
+        </div>
+
+        <button class="btn btn-primary mt-3" type="submit">
+            {{ editingIndex !== null ? 'Cập nhật' : 'Thêm mới' }}
+        </button>
+    </form>
+
+    <div class="d-flex justify-content-end mt-3">
+        <button *ngIf="editingIndex !== null" class="btn btn-secondary" type="button" (click)="cancelEdit()">Huỷ</button>
+    </div>
+    
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr class="text-center">
+                <th style="width: 50px;">ID</th>
+                <th style="width: 125px;">username</th>
+                <th style="width: 120px;">Ngày sinh</th>
+                <th style="width: 120px;">Họ</th>
+                <th style="width: 120px;">Tên</th>
+                <th>Email</th>
+                <th style="width: 130px;">Điện thoại</th>
+                <th style="width: 140px;">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody class="table-dark">
+            <tr *ngFor="let u of users | paginate: { itemsPerPage: 4, currentPage: p }; let i = index" class="custom-row">
+                <td>{{ u.id }}</td>
+                <td>{{ u.username }}</td>
+                <td>{{ u.dob | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ u.fname }}</td>
+                <td>{{ u.lname }}</td>
+                <td>{{ u.email }}</td>
+                <td>{{ u.phone }}</td>
+                <td>
+                    <div class="d-flex">
+                        <button class="btn btn-sm btn-warning me-2" (click)="editUser(i)">Sửa</button>
+                        <button class="btn btn-sm btn-danger" (click)="deleteUser(u.id)">Xoá</button>
+                    </div>
+                </td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-center mt-3">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+    
+</div>

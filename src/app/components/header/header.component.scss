@@ -1,0 +1,214 @@
+/* Phần header */
+header {
+    height: 60px;
+    .navbar {   
+        background: #121212; /* Darker tone cho nền */
+        padding: 1rem 0;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        transition: background 0.3s ease-in-out;
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+
+            svg {
+                transition: transform 0.3s ease;
+            }
+
+            &:hover svg {
+                transform: rotate(8deg) scale(1.1); /* Logo hơi nhún nhảy nhẹ */
+            }
+        }
+
+        .nav-link {
+            color: #fff !important;
+            font-weight: 500;
+            position: relative;
+            padding-right: 1rem;
+            cursor: pointer;
+
+            &::after {
+                content: "";
+                position: absolute;
+                bottom: -5px;
+                left: 0;
+                width: 0%;
+                height: 2px;
+                background: linear-gradient(to right, #ff8a00, #e52e71);
+                transition: width 0.3s ease;
+            }
+
+            &:hover::after {
+                width: 97%;
+            }
+
+            // 🌟 Thêm phần này để giữ hiệu ứng khi trang đang active
+            &.active {
+                color: #ff8a00 !important;
+                font-weight: 600;
+
+                &::after {
+                    width: 97%;
+                }
+            }
+        }
+
+        .btn {
+            transition: all 0.3s ease;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-weight: 600;
+
+            /* Định dạng nút Đăng nhập */
+            &.btn-outline-warning {
+                color: #ff8a00;
+                border-color: #ff8a00;
+                background-color: transparent;
+                
+                &:hover {
+                    background: linear-gradient(to right, #ff8a00, #e52e71);
+                    border-color: transparent;
+                    color: #fff;
+                    box-shadow: 0 0 10px rgba(255, 138, 0, 0.4);
+                }
+            }
+
+            /* Định dạng nút Đăng ký */
+            &.btn-warning {
+                background: linear-gradient(to right, #ffe259, #ffa751);
+
+                &:hover {
+                    filter: brightness(1.1);
+                    box-shadow: 0 0 15px rgba(255, 195, 0, 0.4);
+                }
+            }
+        }
+    }
+}
+
+/* Thêm animation cho biểu tượng giỏ hàng */
+.shake-cart {
+    display: inline-block;
+    animation: shake 0.5s ease-in-out infinite;
+}
+
+/* Keyframe animation để lắc biểu tượng giỏ hàng */
+@keyframes shake {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-5deg);
+    }
+    50% {
+        transform: rotate(5deg);
+    }
+    75% {
+        transform: rotate(-5deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.75); /* Mờ hơn một chút */
+    z-index: 999; /* Cao hơn nữa để chắc chắn đè lên mọi thứ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px); /* Thêm hiệu ứng làm mờ nền */
+}
+
+.login-btn{
+    z-index: 1000;
+}
+/* Hiệu ứng chuyển động cho modal */
+.modal-content {
+    transition: all 0.3s ease-in-out;
+    border-radius: 8px;
+    z-index: 1000;
+    /* Bo góc modal */
+}
+
+.modal-header {
+    background-color: #343a40;
+    /* Đổi màu nền header */
+    color: white;
+}
+
+.modal-body {
+    background-color: #f9f9f9;
+    /* Nền sáng */
+    padding: 2rem;
+    /* Thêm padding cho phần body */
+}
+
+.form-control-lg {
+    border-radius: 1.5rem;
+    /* Bo tròn các ô nhập liệu */
+    font-size: 1rem;
+}
+
+.form-check-input {
+    border-radius: 0.5rem;
+    /* Bo tròn checkbox */
+}
+
+.form-check-label {
+    font-size: 0.9rem;
+}
+
+/* Placeholder style */
+input::placeholder {
+    font-style: italic;
+    color: #aaa;
+}
+
+/* Button Đăng nhập */
+.btn-warning {
+    background-color: #f9a825;
+    /* Màu vàng tươi cho nút */
+    border: none;
+}
+
+.btn-warning:hover {
+    background-color: #f57f17;
+    /* Đổi màu khi hover */
+}
+
+/* Social media login buttons */
+.btn-outline-dark {
+    color: #495057;
+    border: 1px solid #495057;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-dark:hover {
+    color: #fff;
+    background-color: #495057;
+    border-color: #495057;
+}
+
+/* Cải thiện liên kết "Quên mật khẩu" */
+.text-warning {
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+/* Cải thiện layout các phần tử trong modal */
+.d-flex {
+    gap: 0.75rem;
+}
+
+.text-center {
+    text-align: center;
+}
+  

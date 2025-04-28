@@ -1,0 +1,139 @@
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="https://github.com/GiaLongDangPham" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="40" height="40">
+                    <style>
+                        .star {
+                            animation: pulseStar 1.5s ease-in-out infinite;
+                            transform-origin: center;
+                        }
+                
+                        @keyframes pulseStar {
+                            0% {
+                                transform: scale(1);
+                            }
+                            50% {
+                                transform: scale(1.15);
+                            }
+                            100% {
+                                transform: scale(1);
+                            }
+                        }
+                    </style>
+                
+                    <!-- Nền đỏ -->
+                    <circle cx="50" cy="50" r="50" fill="#da251d" />
+                
+                    <!-- Ngôi sao vàng có animation -->
+                    <polygon class="star" points="50,20 58,40 80,40 62,54 70,76 50,62 30,76 38,54 20,40 42,40" fill="#ffcc00" />
+                </svg>
+                
+
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/app-user" routerLinkActive="active">Quản lý người dùng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/app-review" routerLinkActive="active">Quản lý khóa học</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-shopping-cart icon shake-cart"></i>
+                            Giỏ hàng
+                        </a>
+                    </li>
+
+                </ul>
+                <div class="ms-auto d-flex gap-2">
+                    <span *ngIf="isLoggedIn"  style="text-decoration: none;"
+                        class="text-warning fw-semibold align-self-center px-3 py-2 rounded-pill bg-dark border border-warning shadow-sm small">
+                        👋 Xin chào, {{ loggedInUsername }}
+                    </span>
+                    <button *ngIf="!isLoggedIn" class="btn btn-outline-warning fw-semibold px-4 py-2 border-2 transition login-btn"
+                        data-bs-toggle="modal" data-bs-target="#loginModal">
+                        Đăng nhập
+                    </button>
+                    <button class="btn btn-warning fw-semibold px-4 py-2 text-dark transition"
+                    *ngIf="isLoggedIn" (click)="onLogout()">
+                        Đăng xuất
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div id="overlay" class="overlay"></div>
+
+<div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="modal-header bg-dark text-white border-0">
+                <h5 class="modal-title">Đăng nhập</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body bg-light">
+                <form (ngSubmit)="onLogin()">
+                    <!-- Tên đăng nhập -->
+                    <div class="form-group mb-3">
+                        <label for="form2Example1" class="form-label">Tên đăng nhập</label>
+                        <input type="email" id="form2Example1" class="form-control form-control-lg"
+                            placeholder="Nhập tài khoản..." [(ngModel)]="username" name="username" required />
+                    </div>
+
+                    <!-- Mật khẩu -->
+                    <div class="form-group mb-3">
+                        <label for="form2Example2" class="form-label">Mật khẩu</label>
+                        <input type="password" id="form2Example2" class="form-control form-control-lg"
+                            placeholder="Nhập mật khẩu..." [(ngModel)]="password" name="password" required />
+                    </div>
+
+                    <!-- Ghi nhớ và Quên mật khẩu -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="form2Example31" checked />
+                            <label class="form-check-label" for="form2Example31">Remember me</label>
+                        </div>
+                        <a href="#!" class="text-decoration-none text-warning">Quên mật khẩu?</a>
+                    </div>
+
+                    <!-- Đăng nhập -->
+                    <button type="submit" class="btn btn-warning w-100 fw-semibold py-2">Đăng nhập</button>
+
+                    <!-- Đăng nhập bằng mạng xã hội -->
+                    <div class="text-center mt-4">
+                        <p class="mb-1">Chưa có tài khoản? <a href="#!" class="fw-semibold">Đăng ký</a></p>
+                        <p class="mb-2">Hoặc đăng nhập bằng:</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <button type="button" class="btn btn-outline-dark rounded-circle">
+                                <i class="fab fa-facebook-f"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-dark rounded-circle">
+                                <i class="fab fa-google"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-dark rounded-circle">
+                                <i class="fab fa-twitter"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-dark rounded-circle">
+                                <i class="fab fa-github"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+  
+  
+  
+
+
+ 
