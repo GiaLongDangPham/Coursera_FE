@@ -50,23 +50,30 @@
                     </span>
                 </th>
 
-                <th style="width: 200px;" (click)="sort('ratingScore')" class="text-center">
+                <th style="width: 250px;" (click)="sort('ratingScore')" class="text-center">
                     Đánh giá
                     <span class="sort-icon">
                         <i [ngClass]="getSortIcon('ratingScore')"></i>
                     </span>
                 </th>
 
-                <th style="width: 250px;" (click)="sort('numberOfRegisters')" class="text-center">
-                    Học viên đã đăng ký
+                <th style="width: 170px;" (click)="sort('numberOfRegisters')" class="text-center">
+                    Số học viên
                     <span class="sort-icon">
                         <i [ngClass]="getSortIcon('numberOfRegisters')"></i>
+                    </span>
+                </th>
+
+                <th style="width: 150px;" (click)="sort('fee')" class="text-center">
+                    Học phí
+                    <span class="sort-icon">
+                        <i [ngClass]="getSortIcon('fee')"></i>
                     </span>
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let r of filteredReviews | paginate: { itemsPerPage: 6, currentPage: p }">
+            <tr *ngFor="let r of filteredReviews | paginate: { itemsPerPage: 20, currentPage: p }">
                 <td>{{ r.courseName }}</td>
                 <td>{{ r.offerName }}</td>
                 <td>
@@ -74,8 +81,10 @@
                         <div class="star-rating-filled" [style.width.%]="(r.ratingScore / 5) * 100"></div>
                     </div>
                     <span class="rating-number">{{ r.ratingScore.toFixed(1) }}</span>
+                    <span class="review-count">({{ r.reviewCount }} đánh giá)</span>
                 </td>
                 <td>{{ r.numberOfRegisters }}</td>
+                <td>{{ r.fee | currency: '$' }}</td>
             </tr>
         </tbody>
     </table>

@@ -3,4 +3,6 @@ export interface Review {
     ratingScore: number;
     offerName: string;
     numberOfRegisters: number;
+    fee: number;
+    reviewCount: number;
 }

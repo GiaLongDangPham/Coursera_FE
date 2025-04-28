@@ -88,9 +88,9 @@ export class UserComponent implements OnInit {
     }
     
 
-    editUser(index: number) {
-        this.userForm.patchValue(this.users[index]);
-        this.editingIndex = index;
+    editUser(user: User) {
+        this.userForm.patchValue(user);
+        this.editingIndex = 1;
     }
 
     deleteUser(id: number) {
