@@ -24,7 +24,7 @@ export class UserService {
         return this.http.put(this.apiUrl, user);
     }
 
-    deleteUser(id: number): Observable<any> {
-        return this.http.delete(`${this.apiUrl}/${id}`);
+    deleteUser(id: number, force: boolean = false): Observable<any> {
+        return this.http.delete(`${this.apiUrl}/${id}?force=${force}`);
     }
 }

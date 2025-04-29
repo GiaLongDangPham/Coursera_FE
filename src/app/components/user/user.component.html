@@ -74,8 +74,7 @@
                 <th style="width: 50px;">ID</th>
                 <th style="width: 125px;">username</th>
                 <th style="width: 120px;">Ngày sinh</th>
-                <th style="width: 120px;">Họ</th>
-                <th style="width: 120px;">Tên</th>
+                <th style="width: 170px;">Họ tên</th>
                 <th>Email</th>
                 <th style="width: 130px;">Điện thoại</th>
                 <th style="width: 140px;">Thao tác</th>
@@ -86,8 +85,7 @@
                 <td>{{ u.id }}</td>
                 <td>{{ u.username }}</td>
                 <td>{{ u.dob | date: 'dd/MM/yyyy' }}</td>
-                <td>{{ u.fname }}</td>
-                <td>{{ u.lname }}</td>
+                <td>{{ u.fname }} {{u.lname}}</td>
                 <td>{{ u.email }}</td>
                 <td>{{ u.phone }}</td>
                 <td>
