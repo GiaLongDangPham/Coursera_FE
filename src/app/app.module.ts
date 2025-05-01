@@ -10,14 +10,16 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ReviewComponent } from './components/review/review.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app/app.component';
-
+// Import ModalModule từ ngx-bootstrap
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { HotCourseComponent } from './components/hot-course/hot-course.component';
 @NgModule({
   declarations: [    
     HeaderComponent,
     FooterComponent, 
     UserComponent, 
     ReviewComponent, 
-    AppComponent
+    AppComponent, HotCourseComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +28,8 @@ import { AppComponent } from './app/app.component';
     ReactiveFormsModule,
     CommonModule,
     NgxPaginationModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ModalModule.forRoot()  // Thêm ModalModule vào imports
   ],
   providers: [
     

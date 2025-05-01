@@ -1,0 +1,75 @@
+<app-header></app-header>
+<div class="container mt-4">
+    <h2 class="mb-4 animated-title">Khóa học bán chạy</h2>
+    <!-- Form nhập thông tin -->
+    <form (ngSubmit)="getTrendedCourses()" [formGroup]="trendCourseForm">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="date_desire">Lọc theo ngày</label>
+                <input type="date" id="date_desire" formControlName="date_desire" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label for="top">Top</label>
+                <input type="number" id="top" formControlName="top" class="form-control" required min="1">
+            </div>
+            <div class="col-md-4">
+                <label for="subject_name">Tên chủ đề</label>
+                <input type="text" id="subject_name" formControlName="subject_name" class="form-control">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Lấy kết quả</button>
+    </form>
+
+    <!-- Bảng kết quả -->
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr class="text-center">
+                <!-- <th>ID Khóa học</th>
+                <th>Tên Khóa học</th>
+                <th>Đã bán</th>
+                <th>Đánh giá</th> -->
+                <th (click)="sort('c_id')">
+                    ID Khóa học
+                    <span class="sort-icon">
+                        <i [ngClass]="getSortIcon('c_id')"></i>
+                    </span>
+                </th>
+                <th (click)="sort('cname')">
+                    Tên Khóa học
+                    <span class="sort-icon">
+                        <i [ngClass]="getSortIcon('cname')"></i>
+                    </span>
+                </th>
+                <th (click)="sort('num_buy')">
+                    Đã bán
+                    <span class="sort-icon">
+                        <i [ngClass]="getSortIcon('num_buy')"></i>
+                    </span>
+                </th>
+                <th (click)="sort('rating')">
+                    Đánh giá
+                    <span class="sort-icon">
+                        <i [ngClass]="getSortIcon('rating')"></i>
+                    </span>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="table-dark">
+            <tr *ngFor="let course of resultData | paginate: { itemsPerPage: 10, currentPage: p }">
+                <td>{{ course.c_id }}</td>
+                <td>{{ course.cname }}</td>
+                <td>{{ course.num_buy }}</td>
+                <td>
+                    <div class="star-rating">
+                        <div class="star-rating-filled" [style.width.%]="(course.rating / 5) * 100"></div>
+                    </div>
+                    <span class="rating-number">{{ course.rating.toFixed(1) }}</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-center mt-3">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+</div>

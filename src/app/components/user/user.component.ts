@@ -15,6 +15,7 @@ export class UserComponent implements OnInit {
     users: User[] = [];
     p: number = 1;
     editingIndex: number | null = null;
+    selectedUser: User | null = null;
 
     constructor(private fb: FormBuilder, private userService: UserService) {
         this.userForm = this.fb.group({
@@ -26,6 +27,9 @@ export class UserComponent implements OnInit {
             lname: ['Long'],
             email: ['gialong@gmail.com', [Validators.required, Validators.email]],
             phone: ['0123456789'],
+            address1: ['HCM'],
+            address2: ['HN'],
+            address3: ['']
         });
     }
 
@@ -58,13 +62,14 @@ export class UserComponent implements OnInit {
         if (this.editingIndex !== null) {
             this.userService.updateUser(this.userForm.value).subscribe({
                 next: () => {
-                    // alert('Cập nhật người dùng thành công.');
+                    debugger
                     Swal.fire('Thành công!', 'Đã cập nhật người dùng.', 'success'),
                     this.editingIndex = null;
                     this.userForm.reset();
                     
                 },
                 error: (err) => {
+                    debugger
                     Swal.fire('Lỗi', err.error?.message || 'Không xác định', 'error');
                 },
                 complete: () => {
@@ -89,7 +94,21 @@ export class UserComponent implements OnInit {
     
 
     editUser(user: User) {
-        this.userForm.patchValue(user);
+        debugger
+        const patchedUser = {
+            id: user.id,
+            username: user.username,
+            password: user.password,
+            dob: user.dob,
+            fname: user.fname,
+            lname: user.lname,
+            email: user.email,
+            phone: user.phone,
+            address1: user.addresses[0] || '',
+            address2: user.addresses[1] || '',
+            address3: user.addresses[2] || ''
+        };
+        this.userForm.patchValue(patchedUser);
         this.editingIndex = 1;
     }
 
@@ -100,7 +119,8 @@ export class UserComponent implements OnInit {
               <p>Hành động này sẽ xóa cả:</p>
               <ul style="text-align: left;">
                 <li>Địa chỉ người dùng</li>
-                <li>Các vai trò, các đánh giá và những chứng chỉ của người này</li>
+                <li>Vai trò người dùng </li>
+                <li>Các đánh giá và những chứng chỉ của người này</li>
                 <li>Các buổi học của người này đã học</li>
               </ul>
               <p>Bạn có thể chọn Xoá tất cả để xóa cả các đơn hàng, mã giảm giá, các khóa học người này cung cấp, ...</p>
@@ -129,5 +149,25 @@ export class UserComponent implements OnInit {
         this.editingIndex = null;
         this.userForm.reset();
     }
+
+    get address2Invalid(): boolean {
+        return this.userForm.get('address2')?.touched &&
+               this.userForm.get('address2')?.value &&
+               !this.userForm.get('address1')?.value;
+    }
+      
+    get address3Invalid(): boolean {
+        return this.userForm.get('address3')?.touched &&
+               this.userForm.get('address3')?.value &&
+               (!this.userForm.get('address1')?.value || !this.userForm.get('address2')?.value);
+    }
     
+    viewUser(user: User) {
+        debugger
+        this.selectedUser = user;
+    }
+
+    getAddress(index: number): string {
+        return this.selectedUser?.addresses?.[index] ?? '';
+    }
 }

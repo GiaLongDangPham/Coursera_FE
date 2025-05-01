@@ -91,6 +91,8 @@
                 color: white;
                 font-weight: bold;
                 text-align: center;
+                padding-right: 30px;
+                cursor: pointer;
             }
         }
 
@@ -133,18 +135,6 @@
     }
 }
 
-.custom-row {
-    background: linear-gradient(145deg, #343a40, #2c2f33); // Nền tối gradient
-    transition: background 0.4s ease, transform 0.3s ease;
-    color: #f8f9fa;
-
-    &:hover {
-        background: linear-gradient(145deg, #3d4146, #1f2225);
-        transform: scale(1.01);
-        box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
-    }
-}
-
 button.btn {
     transition: all 0.3s ease;
     border-radius: 12px;
@@ -165,70 +155,6 @@ button.btn {
     animation: gradientMove 7s ease infinite;
 }
 
-.btn-info {
-    background: linear-gradient(270deg, #00bcd4, #2196f3, #3f51b5, #00bcd4);
-    background-size: 400% 400%;
-    color: #fff;
-    border: none;
-    animation: gradientMove 7s ease infinite;
-}
-
-.btn-warning {
-    background: linear-gradient(270deg, #ffcc70, #ff8c00, #ffd700, #ffcc70);
-    background-size: 400% 400%;
-    color: #212529;
-    border: none;
-    animation: gradientMove 7s ease infinite;
-}
-
-// Gradient động cho nút danger
-.btn-danger {
-    background: linear-gradient(270deg, #ff6b6b, #c0392b, #ff4e50, #ff6b6b);
-    background-size: 400% 400%;
-    color: #fff;
-    border: none;
-    animation: gradientMove 7s ease infinite;
-}
-
-// Keyframes animation
-@keyframes gradientMove {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-.animated-title {
-    font-weight: bold;
-    font-size: 28px;
-    background: linear-gradient(270deg, #ff8a00, #e52e71, #cfcc22);
-    background-size: 600% 600%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradient-wave 5s ease infinite;
-}
-
-@keyframes gradient-wave {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
 input.form-control {
     background: transparent;
     border: none;
@@ -246,39 +172,107 @@ input.form-control:focus {
     outline: none;
 }
 
-.add-adr2 {
-    margin-top: 35px;
+.animated-title {
+    font-weight: bold;
+    font-size: 28px;
+    background: linear-gradient(270deg, #ff8a00, #e52e71, #cfcc22);
+    background-size: 600% 600%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-wave 5s ease infinite;
+}
+
+@keyframes gradient-wave {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+// === Rating (Đánh giá) ===
+.star-rating {
+    position: relative;
+    display: inline-block;
+    font-size: 1.2rem;
+    color: #ddd;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+
+    &::before {
+        content: '★★★★★';
+        letter-spacing: 2px;
+    }
+
+    .star-rating-filled {
+        position: absolute;
+        top: 0;
+        left: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 0;
+
+        color: #ffc107;
+
+        &::before {
+            content: '★★★★★';
+            letter-spacing: 2px;
+        }
+    }
 }
 
 
-.modal-content {
-    background-color: #1e1e2f;
-    color: #fff;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+// === Icon sắp xếp ===
+.sort-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 8px;
+    font-size: 1.2em;
+    opacity: 0.5;
+    transition: opacity 0.3s, transform 0.3s;
 
-    .modal-header,
-    .modal-footer {
-        border: none;
-        background-color: #292b3e;
+    i.fa {
+        font-size: 1.2em;
+        opacity: 0.5;
+        transition: opacity 0.3s, transform 0.3s;
+
+        &.active {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        &.hidden {
+            display: none;
+        }
     }
 
-    .modal-title {
-        font-size: 1.4rem;
-        font-weight: bold;
-    }
-
-    .btn-close {
-        filter: invert(1); // trắng
-    }
-
-    p {
-        margin-bottom: 8px;
-        font-size: 0.95rem;
-    }
-
-    strong {
-        color: #ffcc00;
+    th:hover & {
+        opacity: 1;
     }
 }
+
+
+// Keyframes animation
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.rating-number {
+    margin-left: 6px;
+    font-size: 0.9rem;
+    color: #ffffff;
+}
+

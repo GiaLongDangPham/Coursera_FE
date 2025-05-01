@@ -56,7 +56,30 @@
                 <label>Số điện thoại</label>
                 <input type="text" formControlName="phone" class="form-control"/>
             </div>
+            <!-- Địa chỉ 1 -->
+            <div class="col-md-4">
+                <label>Địa chỉ 1</label>
+                <input type="text" formControlName="address1" class="form-control" />
+            </div>
+
+            <!-- Địa chỉ 2 -->
+            <div class="col-md-4">
+                <label>Địa chỉ 2</label>
+                <input type="text" formControlName="address2" class="form-control" />
+                <div *ngIf="address2Invalid" class="text-danger">
+                    Hãy nhập địa chỉ 1 trước
+                </div>
+            </div>
             
+            
+            <!-- Địa chỉ 3 -->
+            <div class="col-md-4">
+                <label>Địa chỉ 3</label>
+                <input type="text" formControlName="address3" class="form-control" />
+                <div *ngIf="address3Invalid" class="text-danger">
+                    Hãy nhập địa chỉ 1 và 2 trước
+                </div>
+            </div>
         </div>
 
         <button class="btn btn-primary mt-3" type="submit">
@@ -71,25 +94,26 @@
     <table class="table table-bordered">
         <thead class="table-dark">
             <tr class="text-center">
-                <th style="width: 50px;">ID</th>
-                <th style="width: 125px;">username</th>
-                <th style="width: 120px;">Ngày sinh</th>
+                <!-- <th style="width: 50px;">ID</th> -->
                 <th style="width: 170px;">Họ tên</th>
-                <th>Email</th>
                 <th style="width: 130px;">Điện thoại</th>
+                <th>Email</th>
+                <th style="width: 140px;">username</th>
+                <th style="width: 140px;">Ngày sinh</th>
                 <th style="width: 140px;">Thao tác</th>
             </tr>
         </thead>
         <tbody class="table-dark">
-            <tr *ngFor="let u of users | paginate: { itemsPerPage: 4, currentPage: p }; let i = index" class="custom-row">
-                <td>{{ u.id }}</td>
+            <tr *ngFor="let u of users | paginate: { itemsPerPage: 8, currentPage: p }; let i = index" class="custom-row">
+                <!-- <td>{{ u.id }}</td> -->
+                <td>{{ u.fname }} {{u.lname}}</td>
+                <td>{{ u.phone }}</td>
+                <td>{{ u.email }}</td>
                 <td>{{ u.username }}</td>
                 <td>{{ u.dob | date: 'dd/MM/yyyy' }}</td>
-                <td>{{ u.fname }} {{u.lname}}</td>
-                <td>{{ u.email }}</td>
-                <td>{{ u.phone }}</td>
                 <td>
                     <div class="d-flex">
+                        <button class="btn btn-sm btn-info me-2" (click)="viewUser(u)" data-bs-toggle="modal" data-bs-target="#userDetailModal">Xem</button>
                         <button class="btn btn-sm btn-warning me-2" (click)="editUser(u)">Sửa</button>
                         <button class="btn btn-sm btn-danger" (click)="deleteUser(u.id)">Xoá</button>
                     </div>
@@ -103,4 +127,32 @@
         <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
     
+</div>
+
+<!-- Modal hiển thị thông tin user -->
+<div class="modal fade" id="userDetailModal" tabindex="-1" aria-labelledby="userDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userDetailModalLabel">Thông tin người dùng</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body" *ngIf="selectedUser">
+                <p><strong>ID:</strong>{{ selectedUser.id }}</p>
+                <p><strong>Họ tên:</strong> {{ selectedUser.fname }} {{ selectedUser.lname }}</p>
+                <p><strong>Username:</strong> {{ selectedUser.username }}</p>
+                <p><strong>Email:</strong> {{ selectedUser.email }}</p>
+                <p><strong>Số điện thoại:</strong> {{ selectedUser.phone }}</p>
+                <p><strong>Ngày sinh:</strong> {{ selectedUser.dob | date: 'dd/MM/yyyy' }}</p>
+                <p><strong>Mật khẩu:</strong> {{ selectedUser.password }}</p>
+                <p><strong>Địa chỉ 1:</strong> {{ getAddress(0) }}</p>
+                <p><strong>Địa chỉ 2:</strong> {{ getAddress(1) }}</p>
+                <p><strong>Địa chỉ 3:</strong> {{ getAddress(2) }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
 </div>

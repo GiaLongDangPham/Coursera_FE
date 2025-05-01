@@ -86,32 +86,6 @@ header {
     }
 }
 
-/* Thêm animation cho biểu tượng giỏ hàng */
-.shake-cart {
-    display: inline-block;
-    animation: shake 0.5s ease-in-out infinite;
-}
-
-/* Keyframe animation để lắc biểu tượng giỏ hàng */
-@keyframes shake {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    25% {
-        transform: rotate(-5deg);
-    }
-    50% {
-        transform: rotate(5deg);
-    }
-    75% {
-        transform: rotate(-5deg);
-    }
-    100% {
-        transform: rotate(0deg);
-    }
-}
-
 /* Overlay */
 .overlay {
     position: fixed;

@@ -7,4 +7,8 @@ export interface User {
     lname: string;
     email: string;
     phone: string;
+    addresses: string[];
+    // address1: string;
+    // address2: string;
+    // address3: string;
 }
