@@ -42,7 +42,7 @@ export class UserComponent implements OnInit {
             next: (res) => {
                 this.users = res.result; 
             },
-            error: (err) => alert("Không thể load người dùng: " + err.error.message)
+            error: (err) => Swal.fire('Lỗi', 'Không thể load người dùng', 'error'),
         });
     }
 
@@ -55,7 +55,7 @@ export class UserComponent implements OnInit {
     submitForm() {
         if (this.userForm.invalid) {
             this.userForm.markAllAsTouched();
-            alert('Vui lòng nhập đầy đủ và đúng định dạng!');
+            Swal.fire('Lỗi', 'Vui lòng nhập đầy đủ và đúng định dạng', 'error');
             return;
         }
     

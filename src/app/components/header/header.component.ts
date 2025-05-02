@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Modal } from 'bootstrap';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit {
     onLogin(): void {
         this.authService.login(this.username, this.password).subscribe({
             next: () => {
-                alert('Đăng nhập thành công!');
+                Swal.fire('Thành công!', 'Đã đăng nhập thành công.', 'success');
                 const modalElement = document.getElementById('loginModal');
                 if (modalElement) {
                     const modalInstance = Modal.getInstance(modalElement) || new Modal(modalElement);

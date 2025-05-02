@@ -27,6 +27,9 @@ export class ReviewComponent implements OnInit, AfterViewInit  {
     courseNameControl = new FormControl('');
     subjectNameControl = new FormControl('');
     ratingControl = new FormControl();
+    minFeeControl = new FormControl('');
+    maxFeeControl = new FormControl('');
+
     p: number = 1;
 
     isLeftDisabled = true;
@@ -65,6 +68,14 @@ export class ReviewComponent implements OnInit, AfterViewInit  {
         this.ratingControl.valueChanges
             .pipe(debounceTime(300))
             .subscribe(() => this.updateFilteredReviews());
+
+        this.minFeeControl.valueChanges
+            .pipe(debounceTime(300))
+            .subscribe(() => this.updateFilteredReviews());
+
+        this.maxFeeControl.valueChanges
+            .pipe(debounceTime(300))
+            .subscribe(() => this.updateFilteredReviews());
     }
 
 
@@ -84,10 +95,14 @@ export class ReviewComponent implements OnInit, AfterViewInit  {
     updateFilteredReviews(): void {
         let courseText = this.courseNameControl.value?.toLowerCase() || '';
         let minRating = this.ratingControl.value || 0;
+        let minFee = parseInt(this.minFeeControl.value ?? '') || 0;
+        let maxFee = this.maxFeeControl.value ? parseInt(this.maxFeeControl.value) : Number.MAX_SAFE_INTEGER;
 
         let data = this.reviews.filter(r =>
             r.courseName.toLowerCase().includes(courseText) &&
-            r.ratingScore >= minRating  // Lọc theo ratingScore
+            r.ratingScore >= minRating &&
+            r.fee >= minFee &&
+            r.fee <= maxFee // Lọc theo ratingScore
         );
 
         if (this.sortField) {

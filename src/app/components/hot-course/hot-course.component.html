@@ -1,21 +1,42 @@
 <app-header></app-header>
 <div class="container mt-4">
-    <h2 class="mb-4 animated-title">Khóa học bán chạy</h2>
+    <h2 class="mb-2 animated-title">Khóa học bán chạy</h2>
+
+    <!-- Subject slider -->
+    <div class="subject-slider mb-3 d-flex align-items-center">
+        <button class="arrow-button me-2" (click)="scrollSubjects('left')" [disabled]="isLeftDisabled">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+    
+        <div #subjectScrollContainer class="subject-scroll-container flex-grow-1" (scroll)="onScroll()">
+            <span *ngFor="let subject of subjectList"
+                  class="subject-chip"
+                  [class.active]="subject === subjectNameControl.value"
+                  (click)="onSelectSubject(subject)">
+                {{ subject }}
+            </span>
+        </div>
+    
+        <button class="arrow-button ms-2" (click)="scrollSubjects('right')" [disabled]="isRightDisabled">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+    </div>
+
     <!-- Form nhập thông tin -->
     <form (ngSubmit)="getTrendedCourses()" [formGroup]="trendCourseForm">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label for="date_desire">Lọc theo ngày</label>
                 <input type="date" id="date_desire" formControlName="date_desire" class="form-control" required>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label for="top">Top</label>
                 <input type="number" id="top" formControlName="top" class="form-control" required min="1">
             </div>
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
                 <label for="subject_name">Tên chủ đề</label>
                 <input type="text" id="subject_name" formControlName="subject_name" class="form-control">
-            </div>
+            </div> -->
         </div>
         <button type="submit" class="btn btn-primary mt-3">Lấy kết quả</button>
     </form>

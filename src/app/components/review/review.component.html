@@ -1,6 +1,6 @@
 <app-header></app-header>
 <div class="container mt-4">
-    <h2 class="animated-title">Danh sách chủ đề</h2>
+    <h2 class="animated-title">Danh sách khóa học</h2>
 
     <!-- Subject slider -->
     <div class="subject-slider mb-3 d-flex align-items-center">
@@ -23,13 +23,21 @@
     </div>
 
     <div class="row mb-3 input-find">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <input type="text" class="form-control input-search" placeholder="Nhập tên khóa học muốn tìm kiếm"
                 [formControl]="courseNameControl">
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <input type="text" id="ratingInput" class="form-control input-rating" placeholder="Nhập rating tối thiểu muốn tìm kiếm"
                 [formControl]="ratingControl">
+        </div>
+        <div class="col-md-2">
+          <input type="text" class="form-control input-min-fee" placeholder="Học phí tối thiểu ($)"
+            [formControl]="minFeeControl">
+        </div>
+        <div class="col-md-2">
+          <input type="text" class="form-control input-max-fee" placeholder="Học phí tối đa ($)"
+            [formControl]="maxFeeControl">
         </div>
     </div>
 
