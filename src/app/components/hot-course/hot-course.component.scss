@@ -78,7 +78,7 @@
     }
 
     table.table {
-        margin-top: 5px;
+        margin-top: 30px;
         border-radius: 8px;
         overflow: hidden;
         background: rgba(255, 255, 255, 0.05);
@@ -153,6 +153,20 @@ button.btn {
     color: #fff;
     border: none;
     animation: gradientMove 7s ease infinite;
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 input.form-control {
@@ -251,22 +265,6 @@ input.form-control:focus {
 
     th:hover & {
         opacity: 1;
-    }
-}
-
-
-// Keyframes animation
-@keyframes gradientMove {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
     }
 }
 

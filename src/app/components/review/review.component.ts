@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Review } from '../../models/review';
 import { ReviewService } from '../../services/review.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { SubjectService } from '../../services/subject.service';
+import Swal from 'sweetalert2';
+import { min } from 'class-validator';
 @Component({
     selector: 'app-review',
     templateUrl: './review.component.html',
@@ -12,36 +14,48 @@ import { SubjectService } from '../../services/subject.service';
 export class ReviewComponent implements OnInit, AfterViewInit  {
 
     @ViewChild('subjectScrollContainer') subjectScrollContainer!: ElementRef<HTMLElement>;
-
-    reviews: Review[] = [];
-    filteredReviews: Review[] = [];
     subjectList: string[] = ['Frontend', 'Backend', 'Database', 'AI', 'DevOps', 'Design',]; // hoặc lấy từ API
-
     subjectKeyword: string = '';  // Lọc theo chủ đề
-    courseKeyword: string = '';   // Lọc theo khoá học
-    minRating: number = 0.0;      // Lọc theo rating tối thiểu
-
-    sortField = '';
-    sortAsc = true;
-
-    courseNameControl = new FormControl('');
-    subjectNameControl = new FormControl('');
-    ratingControl = new FormControl();
-    minFeeControl = new FormControl('');
-    maxFeeControl = new FormControl('');
-
-    p: number = 1;
 
     isLeftDisabled = true;
     isRightDisabled = false;
+    subjectNameControl = new FormControl('');
 
-    constructor(private reviewService: ReviewService, private subjectService: SubjectService) { }
+    courseForm: FormGroup;
+    resultData: Review[] = [];
+    filteredCourses: Review[] = [];
+
+    sortField: keyof Review | '' = '';
+    sortAsc = false;
+
+    p: number = 1;
+
+    constructor(
+        private reviewService: ReviewService, 
+        private subjectService: SubjectService,
+        private fb: FormBuilder) 
+    { 
+        this.courseForm = this.fb.group({
+            subject_name: [''],
+            courseKeyword: [''],
+            minRating: ['', [Validators.min(0), Validators.max(5)]],
+            minFee: ['', [Validators.min(0)]],
+            maxFee: ['', [Validators.min(0)]],
+        });
+    }
 
     ngAfterViewInit() {
         this.updateScrollButtons();
     }
 
     ngOnInit(): void {
+        this.courseForm.patchValue({
+            courseKeyword: '',
+            minRating: '',
+            minFee: '',
+            maxFee: ''
+        });
+
         this.loadReviews();
 
         debugger
@@ -57,68 +71,45 @@ export class ReviewComponent implements OnInit, AfterViewInit  {
             error: (err) => console.error('Lỗi khi load subject:', err)
         });
 
-        this.courseNameControl.valueChanges
-            .pipe(debounceTime(300))
-            .subscribe(() => this.updateFilteredReviews());
-
         this.subjectNameControl.valueChanges
             .pipe(debounceTime(300))
-            .subscribe(() => this.updateFilteredReviews());
-
-        this.ratingControl.valueChanges
-            .pipe(debounceTime(300))
-            .subscribe(() => this.updateFilteredReviews());
-
-        this.minFeeControl.valueChanges
-            .pipe(debounceTime(300))
-            .subscribe(() => this.updateFilteredReviews());
-
-        this.maxFeeControl.valueChanges
-            .pipe(debounceTime(300))
-            .subscribe(() => this.updateFilteredReviews());
+            .subscribe(() => this.loadReviews());
     }
 
 
     loadReviews(): void {
+        let {courseKeyword, minRating, minFee, maxFee} = this.courseForm.value;
+        const subject_name = this.subjectNameControl.value || this.subjectKeyword;
+        if(!minRating) minRating = 0;
+        if(!minFee) minFee = 0;
+        if(!maxFee) maxFee = 0; 
         debugger
-        this.reviewService.getTopRatedReviews(this.subjectKeyword, this.courseKeyword, this.minRating).subscribe({
+        this.reviewService.getTopRatedReviews(subject_name, courseKeyword, minRating, minFee, maxFee)
+        .subscribe({
             next: (data) => {
-                this.reviews = data;
-                this.updateFilteredReviews();
+                debugger
+                this.resultData = data;
+                this.updateFilteredCourses();
             },
             error: (err) => {
-                alert('Error loading reviews: ' + err.message);
+                debugger
+                Swal.fire('Lỗi', err.error?.message || 'Không xác định', 'error');
             }
         });
     }
 
-    updateFilteredReviews(): void {
-        let courseText = this.courseNameControl.value?.toLowerCase() || '';
-        let minRating = this.ratingControl.value || 0;
-        let minFee = parseInt(this.minFeeControl.value ?? '') || 0;
-        let maxFee = this.maxFeeControl.value ? parseInt(this.maxFeeControl.value) : Number.MAX_SAFE_INTEGER;
+    updateFilteredCourses(): void {
+        this.resultData.sort((a, b) => {
+            const valueA = a[this.sortField as keyof Review];
+            const valueB = b[this.sortField as keyof Review];
 
-        let data = this.reviews.filter(r =>
-            r.courseName.toLowerCase().includes(courseText) &&
-            r.ratingScore >= minRating &&
-            r.fee >= minFee &&
-            r.fee <= maxFee // Lọc theo ratingScore
-        );
-
-        if (this.sortField) {
-            data = data.sort((a, b) => {
-                const valueA = a[this.sortField as keyof Review];
-                const valueB = b[this.sortField as keyof Review];
-
-                if (typeof valueA === 'string' && typeof valueB === 'string') {
-                    return valueA.localeCompare(valueB) * (this.sortAsc ? 1 : -1);
-                }
-                return (valueA > valueB ? 1 : -1) * (this.sortAsc ? 1 : -1);
-            });
-        }
-
-        this.filteredReviews = data;
+            if (typeof valueA === 'string' && typeof valueB === 'string') {
+                return valueA.localeCompare(valueB) * (this.sortAsc ? 1 : -1);
+            }
+            return (valueA > valueB ? 1 : -1) * (this.sortAsc ? 1 : -1);
+        });
     }
+
 
     sort(field: keyof Review) {
         if (this.sortField === field) this.sortAsc = !this.sortAsc;
@@ -126,7 +117,7 @@ export class ReviewComponent implements OnInit, AfterViewInit  {
             this.sortField = field;
             this.sortAsc = true;
         }
-        this.updateFilteredReviews();
+        this.updateFilteredCourses();
     }
 
     getSortIcon(field: keyof Review): string {

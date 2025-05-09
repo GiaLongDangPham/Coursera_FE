@@ -15,6 +15,7 @@ export class HotCourseComponent implements OnInit, AfterViewInit {
     @ViewChild('subjectScrollContainer') subjectScrollContainer!: ElementRef<HTMLElement>;
     subjectList: string[] = ['Frontend', 'Backend', 'Database', 'AI', 'DevOps', 'Design',]; // hoặc lấy từ API
     subjectKeyword: string = '';  // Lọc theo chủ đề
+    
     isLeftDisabled = true;
     isRightDisabled = false;
     subjectNameControl = new FormControl('');
@@ -24,7 +25,7 @@ export class HotCourseComponent implements OnInit, AfterViewInit {
     filteredCourses: TrendCourseResponse[] = [];
 
     sortField: keyof TrendCourseResponse | '' = '';
-    sortAsc = true;
+    sortAsc = false;
 
     p: number = 1;
     
@@ -39,7 +40,7 @@ export class HotCourseComponent implements OnInit, AfterViewInit {
 
         this.trendCourseForm = this.fb.group({
             date_desire: [formattedDate],
-            top: [10, [Validators.required, Validators.min(1)]],
+            top: [10, [Validators.min(1)]],
             subject_name: ['']
         });
     }
@@ -84,6 +85,7 @@ export class HotCourseComponent implements OnInit, AfterViewInit {
     getTrendedCourses(): void {
         const { date_desire, top} = this.trendCourseForm.value;
         const subject_name = this.subjectNameControl.value || this.subjectKeyword;
+        debugger
         this.trendCourseService.getTrendingCourses(date_desire, top, subject_name).subscribe({
             next: (data) => {
                 this.resultData = data || [];

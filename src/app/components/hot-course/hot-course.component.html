@@ -31,7 +31,10 @@
             </div>
             <div class="col-md-6">
                 <label for="top">Top</label>
-                <input type="number" id="top" formControlName="top" class="form-control" required min="1">
+                <input type="number" id="top" formControlName="top" class="form-control" min="1">
+                <div *ngIf="trendCourseForm.get('top')?.invalid && trendCourseForm.get('top')?.touched" class="text-danger">
+                    Top phải lớn hơn hoặc bằng 1
+                </div>
             </div>
             <!-- <div class="col-md-4">
                 <label for="subject_name">Tên chủ đề</label>

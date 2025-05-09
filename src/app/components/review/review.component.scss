@@ -19,34 +19,6 @@
     }
 }
 
-// === Form Tìm Kiếm & Input ===
-.input-find {
-    margin: 20px 0;
-    .col-md-4, .col-md-3, .col-md-2 {
-        padding: 0 10px;
-    }
-
-    input {
-        padding: 15px 12px;
-        font-size: 1rem;
-        border-radius: 25px;
-        border: 2px solid #ccc;
-        background-color: #2d2d2d;
-        color: #fff;
-        transition: border 0.3s, box-shadow 0.3s, transform 0.3s;
-
-        &:focus {
-            border-color: #ff8a00;
-            box-shadow: 0 0 8px rgba(255, 138, 0, 0.7);
-            transform: scale(1.05);
-        }
-
-        &::placeholder {
-            color: #bbb;
-            font-style: italic;
-        }
-    }
-}
 
 // === Container chính ===
 .container {
@@ -59,39 +31,123 @@
     backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: #f8f9fa;
+
+    label {
+        font-weight: 500;
+        color: #dddddd;
+    }
+
+    input {
+        border-radius: 8px;
+        padding: 10px;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        border: 1px solid #555;
+
+        &.is-invalid {
+            border-color: #dc3545;
+        }
+    }
+
+    .btn {
+        border-radius: 8px;
+        padding: 10px 16px;
+        font-weight: 500;
+        color: white;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        &.btn-primary {
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            border: none;
+
+            &:hover {
+                background: linear-gradient(to right, #0072ff, #0046b3);
+            }
+        }
+
+        &.btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+
+        &.btn-warning {
+            background-color: #ffc107;
+            color: black;
+            border: none;
+        }
+
+        &.btn-danger {
+            background-color: #dc3545;
+            border: none;
+        }
+    }
+
+    button[type="button"],
+    button[type="submit"] {
+        display: block;
+        width: fit-content;
+        margin: 5px 0 0px auto;
+    }
 }
 
-// === Nút Button ===
-.btn {
-    border-radius: 12px;
-    padding: 10px 16px;
-    font-weight: 500;
-    color: white;
+input.form-control {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 10px 4px;
+    font-size: 16px;
     transition: all 0.3s ease;
-    background-size: 400% 400%;
+    border-radius: 0;
+}
+
+input.form-control:focus {
+    border-bottom: 2px solid #ff8a00; // hoặc #e52e71
+    box-shadow: 0 2px 10px rgba(255, 138, 0, 0.3);
+    outline: none;
+}
+
+input.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+}
+
+button.btn {
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    font-weight: 500;
+    background-size: 300% 300%;
 
     &:hover {
-        transform: translateY(-4px) scale(1.05);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.btn-primary {
+    background: linear-gradient(270deg, #00bcd4, #2196f3, #3f51b5, #00bcd4);
+    background-size: 400% 400%;
+    color: #fff;
+    border: none;
+    animation: gradientMove 7s ease infinite;
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
     }
 
-    &.btn-primary {
-        background: linear-gradient(270deg, #00bcd4, #2196f3, #3f51b5, #00bcd4);
-        animation: waveGradient 6s ease infinite;
-        border: none;
+    50% {
+        background-position: 100% 50%;
     }
 
-    &.btn-warning {
-        background: linear-gradient(270deg, #ffcc70, #ff8c00, #ffd700, #ffcc70);
-        color: #212529;
-        animation: waveGradient 6s ease infinite;
-        border: none;
-    }
-
-    &.btn-danger {
-        background: linear-gradient(270deg, #ff6b6b, #c0392b, #ff4e50, #ff6b6b);
-        animation: waveGradient 6s ease infinite;
-        border: none;
+    100% {
+        background-position: 0% 50%;
     }
 }
 

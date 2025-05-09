@@ -40,6 +40,7 @@ export class UserComponent implements OnInit {
     loadUsers() {
         this.userService.getAllUsers().subscribe({
             next: (res) => {
+                debugger
                 this.users = res.result; 
             },
             error: (err) => Swal.fire('Lỗi', 'Không thể load người dùng', 'error'),
@@ -53,7 +54,7 @@ export class UserComponent implements OnInit {
     }
 
     submitForm() {
-        if (this.userForm.invalid) {
+        if (this.userForm.invalid || this.addressInvalidOrder()) {
             this.userForm.markAllAsTouched();
             Swal.fire('Lỗi', 'Vui lòng nhập đầy đủ và đúng định dạng', 'error');
             return;
@@ -92,6 +93,25 @@ export class UserComponent implements OnInit {
         }
     }
     
+    /**
+     * Phương thức kiểm tra thứ tự địa chỉ
+     */
+    addressInvalidOrder(): boolean {
+        const address1 = this.userForm.get('address1')?.value?.trim();
+        const address2 = this.userForm.get('address2')?.value?.trim();
+        const address3 = this.userForm.get('address3')?.value?.trim();
+        
+        // Kiểm tra thứ tự
+        if (address2 && !address1) {
+            return true; // Địa chỉ 2 có nhưng địa chỉ 1 không
+        }
+        
+        if (address3 && (!address1 || !address2)) {
+            return true; // Địa chỉ 3 có nhưng thiếu địa chỉ 1 hoặc 2
+        }
+        
+        return false;
+    }
 
     editUser(user: User) {
         debugger

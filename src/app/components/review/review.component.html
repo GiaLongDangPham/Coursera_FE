@@ -22,24 +22,40 @@
         </button>
     </div>
 
-    <div class="row mb-3 input-find">
-        <div class="col-md-4">
-            <input type="text" class="form-control input-search" placeholder="Nhập tên khóa học muốn tìm kiếm"
-                [formControl]="courseNameControl">
+    <form [formGroup]="courseForm" (ngSubmit)="loadReviews()">
+        <div class="row mb-3 input-find">
+            <div class="col-md-4">
+                <label for="courseKeyword">Tên khóa học</label>
+                <input type="text" class="form-control input-search" formControlName="courseKeyword" id="courseKeyword">
+            </div>
+            <div class="col-md-4">
+                <label for="ratingInput">Điểm đánh giá</label>
+                <input type="number" id="ratingInput" class="form-control input-rating" 
+                    formControlName="minRating" id="ratingInput" min="0" max="5" step="0.1">
+                <div *ngIf="courseForm.get('minRating')?.invalid && courseForm.get('minRating')?.touched" class="text-danger">
+                    Điểm đánh giá từ 0 tới 5
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label for="minFee">Khoảng học phí</label>
+                <input type="number" class="form-control input-min-fee" formControlName="minFee" id="minFee" 
+                    placeholder="($) Từ" min="0">
+                <div *ngIf="courseForm.get('minFee')?.invalid && courseForm.get('minFee')?.touched" class="text-danger">
+                    Học phí >= 0
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label for="maxFee"></label>
+                <input type="number" class="form-control input-max-fee" formControlName="maxFee" id="maxFee" 
+                    placeholder="($) Đến" min="0">
+                <div *ngIf="courseForm.get('maxFee')?.invalid && courseForm.get('maxFee')?.touched" class="text-danger">
+                    Học phí >= 0
+                </div>
+            </div>
+    
         </div>
-        <div class="col-md-4">
-            <input type="text" id="ratingInput" class="form-control input-rating" placeholder="Nhập rating tối thiểu muốn tìm kiếm"
-                [formControl]="ratingControl">
-        </div>
-        <div class="col-md-2">
-          <input type="text" class="form-control input-min-fee" placeholder="Học phí tối thiểu ($)"
-            [formControl]="minFeeControl">
-        </div>
-        <div class="col-md-2">
-          <input type="text" class="form-control input-max-fee" placeholder="Học phí tối đa ($)"
-            [formControl]="maxFeeControl">
-        </div>
-    </div>
+        <button type="submit" class="btn btn-primary mt-3">Lấy kết quả</button>
+    </form>
 
     <table class="table table-dark table-bordered text-center">
         <thead>
@@ -81,7 +97,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let r of filteredReviews | paginate: { itemsPerPage: 20, currentPage: p }">
+            <tr *ngFor="let r of resultData | paginate: { itemsPerPage: 20, currentPage: p }">
                 <td>{{ r.courseName }}</td>
                 <td>{{ r.offerName }}</td>
                 <td>
